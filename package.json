@@ -1,0 +1,23 @@
+{
+  "name": "projeto-agenda-pokemon",
+  "version": "1.0.0",
+  "description": "fazer um CRUD com express e mongodb consumindo a api pokemon(pokeapi)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedroveronez2/projeto-agenda-pokemon.git"
+  },
+  "author": "Pedro Augusto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedroveronez2/projeto-agenda-pokemon/issues"
+  },
+  "homepage": "https://github.com/pedroveronez2/projeto-agenda-pokemon#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0"
+  }
+}
