@@ -1,0 +1,36 @@
+<%- include('./includes/head.ejs')%>
+
+<%- include('./includes/navbar.ejs')%>
+
+<div class="container mt-5">
+  <h1>Bem-vindo <%= user.username %>!</h1>
+
+  <h2>Pokémons Favoritos:</h2>
+  <% if (user.favorites && user.favorites.length > 0) { %>
+    <div class="row">
+      <% user.favorites.forEach((favorite) => { %>
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div class="card">
+            <img src="<%= favorite.image %>" class="card-img-top" alt="<%= favorite.name %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= favorite.name %></h5>
+              <p class="card-text"><strong>Tipos:</strong> <%= favorite.types.join(', ') %></p>
+              <form action="/removeFavorite" method="post" >
+                <input type="hidden" name="pokemonName" value="<%= favorite.name %>">
+                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>Nenhum Pokémon favorito encontrado.</p>
+  <% } %>
+  <a href="/pokemonWorld" class="btn btn-success">Jogar</a>
+
+  <a href="/pokemons" class="btn btn-primary">Adicionar Pokémons</a>
+
+</div>
+
+<%- include('./includes/footer.ejs')%>

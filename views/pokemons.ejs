@@ -1,0 +1,54 @@
+<%- include('./includes/head.ejs')%>
+<%- include('./includes/navbar.ejs')%>
+
+<div class="container mt-5">
+  <h1>Lista de Pokémons</h1>
+  
+  <!-- Input para pesquisar Pokémon -->
+  <div class="input-group mb-4">
+    <input type="text" class="form-control" id="searchInput" onkeyup="searchPokemons()" placeholder="Digite o nome do Pokémon" required>
+  </div>
+
+  <!-- Div que contém os cards dos Pokémons (adicionando o ID "pokemonList") -->
+  <div class="row" id="pokemonList">
+    <% pokemons.forEach(pokemon => { %>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card">
+        <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
+        <div class="card-body">
+          <h5 class="card-title"><%= pokemon.name %></h5>
+          <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
+          <form action="/addFavorite" method="post">
+            <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
+            <button type="submit" class="btn btn-primary">Adicionar aos Favoritos</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>
+
+<script>
+    function searchPokemons() {
+  // Declare variables
+  var input, filter, ul, li, h5, txtValue;
+  input = document.getElementById('searchInput');
+  filter = input.value.toUpperCase();
+  pokemonList = document.getElementById("pokemonList");
+  cards = pokemonList.getElementsByClassName('col-lg-4 col-md-6 col-sm-12 mb-4');
+
+  // Loop through all cards, and hide those that don't match the search query
+  for (let i = 0; i < cards.length; i++) {
+    h5 = cards[i].querySelector('.card-title');
+    txtValue = h5.textContent || h5.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      cards[i].style.display = "block"; // Altere o estilo para "block"
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+<%- include('./includes/footer.ejs')%>
