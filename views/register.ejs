@@ -4,6 +4,19 @@
 
 <div class="container mt-5">
   <h1>Registrar</h1>
+
+  <% if (typeof errorMessage !== 'undefined') { %>
+    <div class="alert alert-danger" role="alert">
+      <%= errorMessage %>
+    </div>
+  <% } %>
+  <% if (typeof messageSuccess !== 'undefined') { %>
+    <div class="alert alert-success" role="alert">
+      <%= messageSuccess %>
+    </div>
+  <% } %>
+
+
   <form action="/register" method="post">
     <div class="mb-3">
       <label for="username" class="form-label">Username:</label>
@@ -11,7 +24,14 @@
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password:</label>
-      <input type="password" id="password" name="password" class="form-control" required>
+      <div class="input-group">
+        <input type="password" id="password" name="password" class="form-control" required>
+        <button type="button" class="btn btn-secondary" onclick="generateRandomPassword()">Gerar Senha</button>
+        <input type="checkbox" id="showPasswordCheckbox" class="form-check-input ms-2" onchange="togglePasswordVisibility()">
+        <label class="form-check-label" for="showPasswordCheckbox">Mostrar Senha</label>
+      </div>
+      <button type="button" class="btn btn-secondary mt-2" onclick="copyPasswordToClipboard()">Copiar Senha</button>
+
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email:</label>
@@ -19,6 +39,25 @@
     </div>
     <button type="submit" class="btn btn-primary">Registrar</button>
   </form>
+  <!-- Adicionar o botão "Copiar Senha" -->
 </div>
+<script>
+  function generateRandomPassword() {
+    const randomPassword = Math.random().toString(36).slice(-8);
+    document.getElementById("password").value = randomPassword;
+  }
 
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const showPasswordCheckbox = document.getElementById("showPasswordCheckbox");
+    passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
+  }
+
+  function copyPasswordToClipboard() {
+    const passwordInput = document.getElementById("password");
+    passwordInput.select();
+    document.execCommand("copy");
+    alert("Senha copiada para a área de transferência!");
+  }
+</script>
 <%- include('./includes/footer.ejs')%>

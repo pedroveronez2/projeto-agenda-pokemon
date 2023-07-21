@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 // Usar as rotas definidas no arquivo routes.js
 app.use(routes);
 
+app.use(flash());
 
 // Middleware para verificar se o usuário está logado
 app.use(isLoggedIn);

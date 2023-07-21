@@ -1,3 +1,4 @@
+// config/pokeapi.js
 const axios = require('axios');
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
