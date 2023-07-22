@@ -3,26 +3,38 @@
 <%- include('./includes/navbar.ejs')%>
 
 <div class="container mt-5">
-  <h1>Login</h1>
-  
-  <!-- Exibir mensagens de erro -->
-  <% if (typeof errorMessage !== 'undefined') { %>
-    <div class="alert alert-danger" role="alert">
-      <%= errorMessage %>
-    </div>
-  <% } %>
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center">Login</h1>
 
-  <form action="/login" method="post">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username:</label>
-      <input type="text" id="username" name="username" class="form-control" required>
+          <!-- Exibir mensagens de erro -->
+          <% if (errorMessage.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <% errorMessage.forEach(message => { %>
+                <p><%= message %></p>
+              <% }); %>
+            </div>
+          <% } %>
+
+          <form action="/login" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username:</label>
+              <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password:</label>
-      <input type="password" id="password" name="password" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
+  </div>
 </div>
 
 <%- include('./includes/footer.ejs')%>

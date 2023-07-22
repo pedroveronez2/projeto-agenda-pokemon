@@ -1,9 +1,10 @@
 // controllers/dashboardController.js
 
+const pokeapi = require('../config/pokeapi');
 const User = require('../models/user');
 const axios = require('axios');
 
-// Rota para exibir o dashboard com os Pokémons favoritos do usuário
+// Rota para exibir o dashboard com os Pokémons do usuário
 const getDashboardPage = async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
@@ -15,33 +16,33 @@ const getDashboardPage = async (req, res) => {
       return res.status(404).send('Usuário não encontrado.');
     }
 
-    res.render('dashboard', { user });
+    res.render('dashboard', { user, errorMessage: req.flash('error'), messageSuccess: req.flash('success') });
   } catch (err) {
     console.error(err);
     res.status(500).send('Erro ao buscar o usuário.');
   }
 };
 
-// Rota para adicionar um Pokémon favorito
-const addFavorite = async (req, res) => {
+// Rota para adicionar um Pokémon no time
+const addPokemon = async (req, res) => {
   try {
     if (!req.session.user) {
-      req.flash('error', 'Você precisa estar logado para adicionar um Pokémon aos favoritos.');
+      req.flash('error', 'Você precisa estar logado para adicionar um Pokémon no seu time.');
       return res.redirect('/login');
     }
 
     const { pokemonName } = req.body;
 
-    // Verificar se o usuário já possui 4 Pokémons favoritos
+    // Verificar se o usuário já possui 4 Pokémons no time
     const user = await User.findById(req.session.user?._id);
     if (user.favorites.length >= 6) {
-      req.flash('error', 'Você já possui 6 Pokémons favoritos. Remova um Pokémon antes de adicionar mais.');
+      req.flash('error', 'Você já possui 6 Pokémons no time. Remova um Pokémon antes de adicionar mais.');
       return res.redirect('/pokemons');
     }
 
-    // Verificar se o Pokémon já foi adicionado aos favoritos
+    // Verificar se o Pokémon já foi adicionado no time
     if (user.favorites.some((favorite) => favorite.name === pokemonName)) {
-      req.flash('error', 'Este Pokémon já foi adicionado aos favoritos.');
+      req.flash('error', 'Este Pokémon já foi adicionado no time.');
       return res.redirect('/pokemons');
     }
 
@@ -55,42 +56,42 @@ const addFavorite = async (req, res) => {
       types: types.map((type) => type.type.name),
     };
 
-    // Adicionar o Pokémon aos favoritos do usuário
+    // Adicionar o Pokémon time do usuário
     await User.findByIdAndUpdate(req.session.user._id, { $push: { favorites: newFavorite } });
 
-    req.flash('success', `${pokemonName} foi adicionado aos favoritos!`);
+    req.flash('success', `${pokemonName} foi adicionado no time!`);
     res.redirect('/pokemons');
   } catch (err) {
     console.error(err);
-    req.flash('error', 'Erro ao adicionar o Pokémon aos favoritos.');
+    req.flash('error', 'Erro ao adicionar o Pokémon no time.');
     res.redirect('/pokemons');
   }
 };
 
-// Rota para remover um Pokémon favorito
+// Rota para remover um Pokémon do time
 const removeFavorite = async (req, res) => {
   try {
     if (!req.session.user) {
-      req.flash('error', 'Você precisa estar logado para remover um Pokémon dos favoritos.');
+      req.flash('error', 'Você precisa estar logado para remover um Pokémon do time.');
       return res.redirect('/login');
     }
 
     const { pokemonName } = req.body;
 
-    // Remover o Pokémon dos favoritos do usuário
+    // Remover o Pokémon do time do usuário
     await User.findByIdAndUpdate(req.session.user._id, { $pull: { favorites: { name: pokemonName } } });
 
-    req.flash('success', `${pokemonName} foi removido dos favoritos!`);
+    req.flash('success', `${pokemonName} foi removido do time!`);
     res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
-    req.flash('error', 'Erro ao remover o Pokémon dos favoritos.');
+    req.flash('error', 'Erro ao remover o Pokémon do time.');
     res.redirect('/dashboard');
   }
 };
 
 module.exports = {
   getDashboardPage,
-  addFavorite,
+  addPokemon,
   removeFavorite,
 };

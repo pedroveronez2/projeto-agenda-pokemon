@@ -11,11 +11,11 @@ router.get('/', (req, res) => {
 
 // Rotas para autenticação
 router.get('/login', (req, res) => {
-  res.render('login', { messages: req.flash('error') });
+  res.render('login', { errorMessage: req.flash('error') });
 });
 
 router.get('/register', (req, res) => {
-  res.render('register', { messages: req.flash('error') });
+  res.render('register', { errorMessage: req.flash('error'), messageSuccess: req.flash('success') });
 });
 
 router.post('/register', authController.register);
@@ -27,11 +27,11 @@ router.get('/pokemons', pokemonController.getPokemonsPage);
 
 // Rotas para o dashboard (requer autenticação)
 router.get('/dashboard', dashboardController.getDashboardPage);
-router.post('/addFavorite', dashboardController.addFavorite);
+router.post('/addPokemon', dashboardController.addPokemon);
 
 
-// Rota para adicionar um Pokémon favorito (POST request)
-router.post('/addFavorite', dashboardController.addFavorite);
+// Rota para adicionar um Pokémon no time (POST request)
+router.post('/addPokemon', dashboardController.addPokemon);
 
 // rota para remover pokemon
 router.post('/removeFavorite', dashboardController.removeFavorite);

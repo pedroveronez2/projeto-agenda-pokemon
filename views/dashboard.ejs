@@ -3,6 +3,22 @@
 <%- include('./includes/navbar.ejs')%>
 
 <div class="container mt-5">
+  <% if (messageSuccess.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <% messageSuccess.forEach(message => { %>
+        <p><%= message %></p>
+      <% }); %>
+    </div>
+  <% } %>
+  <% if (errorMessage.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <% errorMessage.forEach(message => { %>
+        <p><%= message %></p>
+      <% }); %>
+    </div>
+
+  <% } %>
+
   <h1>Bem-vindo <%= user.username %>!</h1>
 
   <h2>Pokémons Favoritos:</h2>

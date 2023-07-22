@@ -11,7 +11,7 @@ const getPokemonsPage = async (req, res) => {
       })
     );
 
-    res.render('pokemons', { pokemons: pokemonDetails, successMessage: null });
+    res.render('pokemons', { pokemons: pokemonDetails, messageSuccess: req.flash('success'), errorMessage: req.flash('error') });
   } catch (err) {
     console.error(err);
     res.status(500).send('Erro ao buscar os Pokémons.');

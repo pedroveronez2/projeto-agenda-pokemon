@@ -3,46 +3,62 @@
 <%- include('./includes/navbar.ejs')%>
 
 <div class="container mt-5">
-  <h1>Registrar</h1>
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center">Registrar</h1>
 
-  <% if (typeof errorMessage !== 'undefined') { %>
-    <div class="alert alert-danger" role="alert">
-      <%= errorMessage %>
-    </div>
-  <% } %>
-  <% if (typeof messageSuccess !== 'undefined') { %>
-    <div class="alert alert-success" role="alert">
-      <%= messageSuccess %>
-    </div>
-  <% } %>
+          <% if (errorMessage.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <% errorMessage.forEach(message => { %>
+                <p><%= message %></p>
+              <% }); %>
+            </div>
+          <% } %>
+          <% if (messageSuccess.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <% messageSuccess.forEach(message => { %>
+                <p><%= message %></p>
+              <% }); %>
+            </div>
+          <% } %>
 
 
-  <form action="/register" method="post">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username:</label>
-      <input type="text" id="username" name="username" class="form-control" required>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password:</label>
-      <div class="input-group">
-        <input type="password" id="password" name="password" class="form-control" required>
-        <button type="button" class="btn btn-secondary" onclick="generateRandomPassword()">Gerar Senha</button>
-        <input type="checkbox" id="showPasswordCheckbox" class="form-check-input ms-2" onchange="togglePasswordVisibility()">
-        <label class="form-check-label" for="showPasswordCheckbox">Mostrar Senha</label>
+          <form action="/register" method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username:</label>
+              <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <div class="input-group">
+                <input type="password" id="password" name="password" class="form-control" required>
+                <button type="button" class="btn btn-secondary" onclick="generateRandomPassword()">Gerar Senha</button>
+              </div>
+              <input type="checkbox" id="showPasswordCheckbox" class="form-check-input ms-2" onchange="togglePasswordVisibility()">
+              <label class="form-check-label" for="showPasswordCheckbox">Mostrar Senha</label>
+
+              <button type="button" class="btn btn-secondary mt-2" onclick="copyPasswordToClipboard()">Copiar Senha</button>
+
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <button type="button" class="btn btn-secondary mt-2" onclick="copyPasswordToClipboard()">Copiar Senha</button>
-
     </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email:</label>
-      <input type="email" id="email" name="email" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrar</button>
-  </form>
-  <!-- Adicionar o botão "Copiar Senha" -->
+  </div>
 </div>
+
 <script>
-  function generateRandomPassword() {
+function generateRandomPassword() {
     const randomPassword = Math.random().toString(36).slice(-8);
     document.getElementById("password").value = randomPassword;
   }
@@ -58,6 +74,7 @@
     passwordInput.select();
     document.execCommand("copy");
     alert("Senha copiada para a área de transferência!");
-  }
-</script>
+  }</script>
+
 <%- include('./includes/footer.ejs')%>
+

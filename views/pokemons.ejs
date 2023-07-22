@@ -1,7 +1,26 @@
 <%- include('./includes/head.ejs')%>
 <%- include('./includes/navbar.ejs')%>
 
+
 <div class="container mt-5">
+  <% if (messageSuccess.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+      <% messageSuccess.forEach(message => { %>
+        <p><%= message %></p>
+      <% }); %>
+    </div>
+  <% } %>
+  <% if (errorMessage.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+      <% errorMessage.forEach(message => { %>
+        <p><%= message %></p>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <div class="container">
+
+  </div>
   <h1>Lista de Pokémons</h1>
   
   <!-- Input para pesquisar Pokémon -->
@@ -18,10 +37,12 @@
         <div class="card-body">
           <h5 class="card-title"><%= pokemon.name %></h5>
           <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
-          <form action="/addFavorite" method="post">
-            <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
-            <button type="submit" class="btn btn-primary">Adicionar aos Favoritos</button>
-          </form>
+          <% if (user) { %>
+            <form action="/addPokemon" method="post">
+              <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
+              <button type="submit" class="btn btn-primary">Adicionar Pokemon</button>
+            </form>
+          <% } %>
         </div>
       </div>
     </div>
