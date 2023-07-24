@@ -35,14 +35,23 @@
       <div class="card">
         <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
         <div class="card-body">
+          <h5 class="card-title">ID: <%= pokemon.id %></h5>
           <h5 class="card-title"><%= pokemon.name %></h5>
+
           <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
-          <% if (user) { %>
-            <form action="/addPokemon" method="post">
-              <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
-              <button type="submit" class="btn btn-primary">Adicionar Pokemon</button>
-            </form>
-          <% } %>
+          <div class="d-flex">
+            <% if (user) { %>
+              <form action="/addPokemon" method="post" class="me-2">
+                <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
+                <button type="submit" class="btn btn-secondary text-white">Adicionar Pokemon</button>
+              </form>
+            <% } %>
+          
+            <a href="/pokemon/<%= pokemon.name %>/<%= pokemon.id %>" class="btn btn-primary">Ver Detalhes</a>
+          </div>
+          
+
+
         </div>
       </div>
     </div>

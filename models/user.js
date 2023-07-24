@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  favorites: [
+  team: [
     {
       id: {
         type: Number,

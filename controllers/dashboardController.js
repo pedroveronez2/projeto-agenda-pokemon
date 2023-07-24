@@ -33,23 +33,23 @@ const addPokemon = async (req, res) => {
 
     const { pokemonName } = req.body;
 
-    // Verificar se o usuário já possui 4 Pokémons no time
+    // Verificar se o usuário já possui 6 Pokémons no time
     const user = await User.findById(req.session.user?._id);
-    if (user.favorites.length >= 6) {
+    if (user.team.length >= 6) {
       req.flash('error', 'Você já possui 6 Pokémons no time. Remova um Pokémon antes de adicionar mais.');
       return res.redirect('/pokemons');
     }
 
     // Verificar se o Pokémon já foi adicionado no time
-    if (user.favorites.some((favorite) => favorite.name === pokemonName)) {
-      req.flash('error', 'Este Pokémon já foi adicionado no time.');
+    if (user.team.some((team) => team.name === pokemonName)) {
+      req.flash('error', `${pokemonName} já foi adicionado no time.`);
       return res.redirect('/pokemons');
     }
 
     // Obter informações completas do Pokémon
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const { id, name, sprites, types } = response.data;
-    const newFavorite = {
+    const newPokemon = {
       id,
       name,
       image: sprites.front_default,
@@ -57,7 +57,7 @@ const addPokemon = async (req, res) => {
     };
 
     // Adicionar o Pokémon time do usuário
-    await User.findByIdAndUpdate(req.session.user._id, { $push: { favorites: newFavorite } });
+    await User.findByIdAndUpdate(req.session.user._id, { $push: { team: newPokemon } });
 
     req.flash('success', `${pokemonName} foi adicionado no time!`);
     res.redirect('/pokemons');
@@ -69,7 +69,7 @@ const addPokemon = async (req, res) => {
 };
 
 // Rota para remover um Pokémon do time
-const removeFavorite = async (req, res) => {
+const removePokemon = async (req, res) => {
   try {
     if (!req.session.user) {
       req.flash('error', 'Você precisa estar logado para remover um Pokémon do time.');
@@ -79,7 +79,7 @@ const removeFavorite = async (req, res) => {
     const { pokemonName } = req.body;
 
     // Remover o Pokémon do time do usuário
-    await User.findByIdAndUpdate(req.session.user._id, { $pull: { favorites: { name: pokemonName } } });
+    await User.findByIdAndUpdate(req.session.user._id, { $pull: { team: { name: pokemonName } } });
 
     req.flash('success', `${pokemonName} foi removido do time!`);
     res.redirect('/dashboard');
@@ -90,8 +90,22 @@ const removeFavorite = async (req, res) => {
   }
 };
 
+// rota detalhe do pokemon do time
+const pokemonTeamDetails = async (req, res) => {
+  try {
+
+    const pokemonDetails = await pokeapi.getPokemonDetails(req.params.name);
+
+    res.render('teamPokemon', { pokemon: pokemonDetails })
+  } catch (err) {
+    console.error('Erro ao buscar detalhes do Pokémon:', err);
+    res.status(500).send('Erro ao buscar detalhes do Pokémon.');
+  }
+}
+
 module.exports = {
   getDashboardPage,
   addPokemon,
-  removeFavorite,
+  removePokemon,
+  pokemonTeamDetails
 };

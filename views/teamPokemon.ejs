@@ -1,0 +1,28 @@
+<%- include('./includes/head.ejs')%>
+<%- include('./includes/navbar.ejs')%>
+
+<div class="container mt-5 mb-5" style="width: 35%;">
+
+  <div class="card">
+    <div class="card-body" >
+      <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
+      <div class="card-body">
+        <h5 class="card-title"><%= pokemon.name %></h5>
+        <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
+        <p class="card-text"><strong>Habilidades:</strong> <%= pokemon.abilities.join(', ') %></p>
+      </div>
+      <div class="d-flex">
+        <form action="/removePokemon" method="post" class="me-2">
+            <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
+            <button type="submit" class="btn btn-danger">Remover</button>
+        </form>
+        <a href="/dashboard" class="btn btn-primary">Voltar</a>
+      </div>
+    </div>
+
+  </div>
+  
+
+</div>
+
+<%- include('./includes/footer.ejs')%>

@@ -1,8 +1,31 @@
 <!-- footer.ejs -->
-<footer class="mt-5 bg-dark text-white text-center py-3 fixed-bottom">
+<footer id="my-footer" class="mt-5 bg-dark text-white text-center py-3 fixed-bottom">
     <p>&copy; 2023 Pokédex. Todos os direitos reservados.</p>
-  </footer>
-  
+</footer>
+
+  <!-- removendo o fixed-bottom do fotoer -->
+  <script>
+  function removeClassAtEnd() {
+
+    const footer = document.getElementById('my-footer');
+    const removivelElement = document.querySelector('.fixed-bottom');
+
+    // Obtém a posição do rodapé em relação ao topo da página
+    const footerPosition = footer.getBoundingClientRect().top;
+
+    // Obtém a altura da janela do navegador
+    const windowHeight = window.innerHeight;
+
+    // Se a posição do rodapé for menor ou igual à altura da janela,
+    // significa que chegamos ao final da página
+    if (footerPosition <= windowHeight) {
+        removivelElement.classList.remove('fixed-bottom');
+    }
+  }
+
+  window.addEventListener('scroll', removeClassAtEnd);
+
+  </script>
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">

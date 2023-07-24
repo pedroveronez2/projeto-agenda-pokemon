@@ -18,13 +18,20 @@ const getAllPokemons = async () => {
 const getPokemonDetails = async (pokemonName) => {
   try {
     const response = await axios.get(`${BASE_URL}/pokemon/${pokemonName}`);
-    const { id, name, sprites, types } = response.data;
-    return { id, name, image: sprites.front_default, types: types.map(type => type.type.name) };
+    const { id, name, sprites, types, abilities } = response.data;
+    return { 
+      id, 
+      name, 
+      image: sprites.front_default, 
+      types: types.map(type => type.type.name),
+      abilities: abilities.map(ability => ability.ability.name)
+    };
   } catch (err) {
     console.error(`Erro ao buscar detalhes do Pokémon "${pokemonName}":`, err);
     throw err;
   }
 };
+
 
 module.exports = {
   getAllPokemons,

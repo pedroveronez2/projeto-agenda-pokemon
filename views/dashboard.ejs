@@ -21,20 +21,23 @@
 
   <h1>Bem-vindo <%= user.username %>!</h1>
 
-  <h2>Pokémons Favoritos:</h2>
-  <% if (user.favorites && user.favorites.length > 0) { %>
+  <h2>Seus Pokémons:</h2>
+  <% if (user.team && user.team.length > 0) { %>
     <div class="row">
-      <% user.favorites.forEach((favorite) => { %>
+      <% user.team.forEach((pokemon) => { %>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <div class="card">
-            <img src="<%= favorite.image %>" class="card-img-top" alt="<%= favorite.name %>">
+            <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
             <div class="card-body">
-              <h5 class="card-title"><%= favorite.name %></h5>
-              <p class="card-text"><strong>Tipos:</strong> <%= favorite.types.join(', ') %></p>
-              <form action="/removeFavorite" method="post" >
-                <input type="hidden" name="pokemonName" value="<%= favorite.name %>">
-                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
-              </form>
+              <h5 class="card-title"><%= pokemon.name %></h5>
+              <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
+              <div class="d-flex">
+                <form action="/removePokemon" method="post" class="me-2">
+                  <input type="hidden" name="pokemonName" value="<%= pokemon.name %>">
+                  <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                </form>
+                <a href="/dashboard/team/pokemon/<%= pokemon.name %>/<%= pokemon.id %>" class="btn btn-primary">Ver Detalhes</a>
+              </div>
             </div>
           </div>
         </div>

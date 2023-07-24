@@ -34,8 +34,13 @@ router.post('/addPokemon', dashboardController.addPokemon);
 router.post('/addPokemon', dashboardController.addPokemon);
 
 // rota para remover pokemon
-router.post('/removeFavorite', dashboardController.removeFavorite);
+router.post('/removePokemon', dashboardController.removePokemon);
 
+// Rota para ver detalhes do pokemon
+router.get('/pokemon/:name/:id', pokemonController.pokemon_details)
+
+// Rota para ver detalhes do pokemon do time
+router.get('/dashboard/team/pokemon/:name/:id', dashboardController.pokemonTeamDetails)
 
 // Rota de logout
 router.get('/logout', (req, res) => {
