@@ -1,0 +1,212 @@
+
+
+<div  class="pokedex">
+    <div class="outer">
+        <div class="top-layer1">
+            <div class="layer1"></div>
+            <div class="layer2"></div>
+            <div class="layer3"></div>
+        </div>
+        <div class="top-layer">
+            <div class="layer1"></div>
+            <div class="layer2"></div>
+            <div class="layer3"></div>
+        </div>
+
+        <div class="top-lights">
+            <div class="inner-light"></div>
+        </div>
+
+        <div class="lights">
+            <div class="red-light"></div>
+            <div class="yellow-light"></div>
+            <div class="green-light"></div>
+        </div>
+
+        <div class="close-pokedex">
+            
+            <div class="main-border">
+                <div class="display d1"></div>
+                <div class="display">
+                    <div class="indicators">
+                        <div class="light"></div>
+                        <div class="light"></div>
+                    </div>
+                    <div class="screen" style="background-color: #8BB600;"><img id="imagePokemon" src="<%= user.team[currentIndex].image %>" class="card-img-top" alt="" style="width: 17vmin; height: 11vmin;"></div>
+                    <div class="power-light"></div>
+                    <div class="stripes">
+                        <div class="stripe"></div>
+                        <div class="stripe"></div>
+                        <div class="stripe"></div>
+                        <div class="stripe"></div>
+                        <div class="stripe"></div>
+                    </div>
+                    <!-- end of display -->
+                </div>
+
+                <div class="power-button"></div>
+                <div class="lights">
+                    <div class="light-indi red"></div>
+                    <div class="light-indi blue"></div>
+                </div>
+                <div class="green-box"></div>
+                <div class="movement">
+                    <button class="left" onclick="previousPokemon()">
+                        <div class="triangle"></div>
+                    </button>
+                    <button class="right" onclick="nextPokemon()">
+                        <div class="triangle"></div>
+                    </button>
+                    <button class="up">
+                        <div class="triangle"></div>
+                    </button>
+                    <button class="down">
+                        <div class="triangle"></div>
+                    </button>
+                    <button class="circle">
+                        <div class="small-circle"></div>
+                    </button>
+                </div>
+                <!-- end of main-border -->
+            </div>
+            <div class="main-border3"></div>
+            <div class="main-border2"></div>
+        </div>
+
+        
+        <div class="cylinder-before"></div>
+        <div class="cylinder"></div>
+        
+
+        <!-- end of outer -->
+    </div>
+    <div class="cylinder-after"></div>
+
+    <div class="close-pokedex">
+        <div class="flip">
+            <div class="main-border">
+
+                <div class="screen pokemonData"  style="color: #ffff;">
+
+                </div>
+                <div class="screen"></div>
+                <div class="screen"></div>
+                <div class="blue-buttons under">
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                </div>
+                <div class="blue-buttons">
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                </div>
+
+
+                <div class="white-button under2">
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                </div>
+                <div class="white-button">
+                    <div class="btn"></div>
+                    <div class="btn"></div>
+                </div>
+                <div class="lights">
+                    <div class="light-indi"></div>
+                    <div class="light-indi"></div>
+                </div>
+
+                <div class="golden-button"></div>
+                <!-- end of main border -->
+            </div>
+            <div class="main-border3"></div>
+            <div class="main-border2"></div>
+            <!-- end of flip -->
+            <div class="flip3"></div>
+            <div class="flip2"></div>
+        </div>
+    </div>
+    <button id="togglePokedex" class="box-title">Abrir Pokedex</button>
+    
+
+    <!-- end of pokedex -->
+</div>
+
+<!-- Código EJS do Pokémon favorito -->
+
+  
+  <script type="text/javascript">
+    // Definir uma variável global currentIndex para rastrear o índice do Pokémon atual
+    let currentIndex = 0;
+    teamPokemon = <%- JSON.stringify(user.team) %>
+    // Função para mostrar o Pokémon atual
+    function showCurrentPokemon() {
+      const pokemonData = document.querySelector('.pokemonData');
+      const imagePokemon = document.getElementById('imagePokemon')
+      if (teamPokemon.length === 0) {
+        pokemonData.innerHTML = '<h2>Nenhum Pokémon favorito encontrado.</h2>';
+      } else {
+        pokemonData.innerHTML = `
+          <p style="text-transform: capitalize">${teamPokemon[currentIndex].name}</p>
+          <p style="text-transform: capitalize; font-size: 10px;">Tipo: ${teamPokemon[currentIndex].types.join(', ')}</p>
+        `;
+        imagePokemon.src = teamPokemon[currentIndex].image
+      }
+    }
+  
+    // Função para mostrar o próximo Pokémon favorito
+    function nextPokemon() {
+      if (teamPokemon.length > 0) {
+        currentIndex = (currentIndex + 1) % teamPokemon.length;
+        showCurrentPokemon();
+      }
+    }
+  
+    // Função para mostrar o Pokémon anterior favorito
+    function previousPokemon() {
+      if (teamPokemon.length > 0) {
+        currentIndex = (currentIndex - 1 + teamPokemon.length) % teamPokemon.length;
+        showCurrentPokemon();
+      }
+    }
+  
+    // Chame a função showCurrentPokemon() para exibir o Pokémon favorito atual
+    showCurrentPokemon();
+  </script>
+  
+
+<script>
+    // Função para alternar o estilo da classe "close-pokedex"
+    function togglePokedexDisplay() {
+        const pokedexElements = document.querySelectorAll('.close-pokedex');
+    
+        pokedexElements.forEach(element => {
+        if (element.style.display === 'block') {
+            element.style.display = 'none';
+            document.getElementById('togglePokedex').innerText = 'Abrir Pokedex'
+        } else {
+            element.style.display = 'block';
+            document.getElementById('togglePokedex').innerText = 'Fechar Pokedex'
+
+        }
+        });
+    }
+    
+    // Adicionando um evento de clique ao botão para chamar a função togglePokedexDisplay()
+    document.getElementById('togglePokedex').addEventListener('click', togglePokedexDisplay);
+</script>
+

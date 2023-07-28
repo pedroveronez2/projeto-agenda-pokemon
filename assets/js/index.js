@@ -1,7 +1,7 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-canvas.width = 1024
+canvas.width = 999
 canvas.height = 576
 
 const collisionsMap = []
@@ -117,22 +117,22 @@ charactersMap.forEach((row, i) => {
 })
 
 const image = new Image()
-image.src = './img/Pellet Town.png'
+image.src = '../img/Pellet Town.png'
 
 const foregroundImage = new Image()
-foregroundImage.src = './img/foregroundObjects.png'
+foregroundImage.src = '../img/foregroundObjects.png'
 
 const playerDownImage = new Image()
-playerDownImage.src = './img/playerDown.png'
+playerDownImage.src = '../img/playerDown.png'
 
 const playerUpImage = new Image()
-playerUpImage.src = './img/playerUp.png'
+playerUpImage.src = '../img/playerUp.png'
 
 const playerLeftImage = new Image()
-playerLeftImage.src = './img/playerLeft.png'
+playerLeftImage.src = '../img/playerLeft.png'
 
 const playerRightImage = new Image()
-playerRightImage.src = './img/playerRight.png'
+playerRightImage.src = '../img/playerRight.png'
 
 const player = new Sprite({
   position: {

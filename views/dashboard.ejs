@@ -22,6 +22,7 @@
   <h1>Bem-vindo <%= user.username %>!</h1>
 
   <h2>Seus Pokémons:</h2>
+  
   <% if (user.team && user.team.length > 0) { %>
     <div class="row">
       <% user.team.forEach((pokemon) => { %>
@@ -29,6 +30,8 @@
           <div class="card">
             <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
             <div class="card-body">
+              <h5 class="card-title">ID: <%= pokemon.id %></h5>
+
               <h5 class="card-title"><%= pokemon.name %></h5>
               <p class="card-text"><strong>Tipos:</strong> <%= pokemon.types.join(', ') %></p>
               <div class="d-flex">

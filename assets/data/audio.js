@@ -5,7 +5,7 @@ const audio = {
     volume: 0.1
   }),
   initBattle: new Howl({
-    src: './audio/initBattle.wav',
+    src: '../audio/initBattle.wav',
     html5: true,
     volume: 0.1
   }),
@@ -15,17 +15,17 @@ const audio = {
     volume: 0.1
   }),
   tackleHit: new Howl({
-    src: './audio/tackleHit.wav',
+    src: '../audio/tackleHit.wav',
     html5: true,
     volume: 0.1
   }),
   fireballHit: new Howl({
-    src: './audio/fireballHit.wav',
+    src: '../audio/fireballHit.wav',
     html5: true,
     volume: 0.1
   }),
   initFireball: new Howl({
-    src: './audio/initFireball.wav',
+    src: '../audio/initFireball.wav',
     html5: true,
     volume: 0.1
   }),

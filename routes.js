@@ -59,8 +59,6 @@ router.get('/logout', (req, res) => {
 });
 
 // jogo
-router.get('/pokemonWorld', (req, res) => {
-  res.render('playPokemon')
-})
+router.get('/pokemonWorld', pokemonController.pokeWorld)
   
 module.exports = router;
