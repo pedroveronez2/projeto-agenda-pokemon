@@ -58,7 +58,9 @@ router.get('/logout', (req, res) => {
   });
 });
 
+
+// pokedex
+router.get('/pokedex', dashboardController.pokedex)
 // jogo
-router.get('/pokemonWorld', pokemonController.pokeWorld)
   
 module.exports = router;

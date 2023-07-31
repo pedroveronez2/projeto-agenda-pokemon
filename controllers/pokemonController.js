@@ -31,17 +31,8 @@ const pokemon_details = async (req, res) => {
   }
 }
 
-const pokeWorld = async (req, res) => {
-  const user = await User.findById(req.session.user?._id);
-
-  res.render('pokeworld', { user, currentIndex: 0 });
-
-} 
-
 
 module.exports = {
   getPokemonsPage,
   pokemon_details,
-  pokeWorld,
-  
 };

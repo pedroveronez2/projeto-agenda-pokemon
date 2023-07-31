@@ -27,11 +27,30 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      image: {
-        type: String,
+      images: 
+        {
+          imageFront: {
+            type: String,
+            required: true,
+          },
+          imageBack: {
+            type: String,
+            required: true,
+          },
+          imageAnimatedFront: {
+            type: String,
+            required: true,
+          },
+          imageAnimatedBack: {
+            type: String,
+            required: true,
+          },
+        },
+      types: {
+        type: [String],
         required: true,
       },
-      types: {
+      abilities: {
         type: [String],
         required: true,
       },

@@ -19,12 +19,18 @@ const getPokemonDetails = async (pokemonName) => {
   try {
     const response = await axios.get(`${BASE_URL}/pokemon/${pokemonName}`);
     const { id, name, sprites, types, abilities } = response.data;
-    return { 
-      id, 
-      name, 
-      image: sprites.front_default, 
+
+    return {
+      id,
+      name,
+      images: {
+        imageFront: sprites.front_default,
+        imageBack: sprites.back_default,
+        imageAnimatedFront: sprites.versions['generation-v']['black-white'].animated.front_default,
+        imageAnimatedBack: sprites.versions['generation-v']['black-white'].animated.back_default,
+      },
+      abilities: abilities.map(ability => ability.ability.name),
       types: types.map(type => type.type.name),
-      abilities: abilities.map(ability => ability.ability.name)
     };
   } catch (err) {
     console.error(`Erro ao buscar detalhes do Pokémon "${pokemonName}":`, err);

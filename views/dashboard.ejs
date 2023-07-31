@@ -28,7 +28,7 @@
       <% user.team.forEach((pokemon) => { %>
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <div class="card">
-            <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
+            <img src="<%= pokemon.images.imageFront %>" class="card-img-top" alt="<%= pokemon.name %>">
             <div class="card-body">
               <h5 class="card-title">ID: <%= pokemon.id %></h5>
 
@@ -52,7 +52,45 @@
   <a href="/pokemonWorld" class="btn btn-success">Jogar</a>
 
   <a href="/pokemons" class="btn btn-primary">Adicionar Pokémons</a>
+  <a href="/pokedex" class="btn btn-primary">Ver Minha Pokedex</a>
 
 </div>
 
-<%- include('./includes/footer.ejs')%>
+<footer id="my-footer" class="mt-5 bg-dark text-white text-center py-3">
+  <p>&copy; 2023 Pokédex. Todos os direitos reservados.</p>
+</footer>
+
+<!-- removendo o fixed-bottom do fotoer -->
+<script>
+function removeClassAtEnd() {
+
+  const footer = document.getElementById('my-footer');
+  const removivelElement = document.querySelector('.fixed-bottom');
+
+  // Obtém a posição do rodapé em relação ao topo da página
+  const footerPosition = footer.getBoundingClientRect().top;
+
+  // Obtém a altura da janela do navegador
+  const windowHeight = window.innerHeight;
+
+  // Se a posição do rodapé for menor ou igual à altura da janela,
+  // significa que chegamos ao final da página
+  if (footerPosition <= windowHeight) {
+      removivelElement.classList.remove('fixed-bottom');
+  }
+}
+
+window.addEventListener('scroll', removeClassAtEnd);
+
+</script>
+<!-- Bootstrap JavaScript Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+  integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+  integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+</script>
+</body>
+
+</html>

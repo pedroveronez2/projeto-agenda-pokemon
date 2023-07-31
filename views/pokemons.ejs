@@ -33,7 +33,7 @@
     <% pokemons.forEach(pokemon => { %>
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
       <div class="card">
-        <img src="<%= pokemon.image %>" class="card-img-top" alt="<%= pokemon.name %>">
+        <img src="<%= pokemon.images.imageFront %>" class="card-img-top" alt="<%= pokemon.name %>">
         <div class="card-body">
           <h5 class="card-title">ID: <%= pokemon.id %></h5>
           <h5 class="card-title"><%= pokemon.name %></h5>

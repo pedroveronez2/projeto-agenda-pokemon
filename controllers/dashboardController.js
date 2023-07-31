@@ -1,5 +1,6 @@
 // controllers/dashboardController.js
 
+const { render } = require('ejs');
 const pokeapi = require('../config/pokeapi');
 const User = require('../models/user');
 const axios = require('axios');
@@ -47,14 +48,7 @@ const addPokemon = async (req, res) => {
     }
 
     // Obter informações completas do Pokémon
-    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-    const { id, name, sprites, types } = response.data;
-    const newPokemon = {
-      id,
-      name,
-      image: sprites.front_default,
-      types: types.map((type) => type.type.name),
-    };
+    const newPokemon = await pokeapi.getPokemonDetails(pokemonName)
 
     // Adicionar o Pokémon time do usuário
     await User.findByIdAndUpdate(req.session.user._id, { $push: { team: newPokemon } });
@@ -103,9 +97,16 @@ const pokemonTeamDetails = async (req, res) => {
   }
 }
 
+const pokedex = async (req, res) => {
+  const user = await User.findById(req.session.user?._id);
+
+  res.render('pokedex', { user, currentIndex: 0 })
+}
+
 module.exports = {
   getDashboardPage,
   addPokemon,
   removePokemon,
-  pokemonTeamDetails
+  pokemonTeamDetails,
+  pokedex,
 };
