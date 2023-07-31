@@ -26,7 +26,6 @@ p{
     -webkit-box-shadow: 0px 40px 0px 13px rgba(0,0,0,0.20);
     -moz-box-shadow: 0px 40px 0px 13px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.40);
-    box-shadow-bottom-left-radius: 50%;
     margin: 50px 0 0 30px;
   }
   
@@ -42,7 +41,6 @@ p{
     -webkit-box-shadow: 0px 40px 0px 13px rgba(0,0,0,0.20);
     -moz-box-shadow: 0px 40px 0px 13px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.40);
-    box-shadow-bottom-left-radius: 50%;
     margin: 322px 0 0 750px;
   }
   
@@ -103,9 +101,7 @@ p{
     margin: 10px 0 0 10px;
   }
   
-  .name{
-      
-  }
+
   
   .name::after{
     /*Change this for either M or F, */
@@ -175,10 +171,7 @@ p{
     margin-left:330px;
   }
   
-  .expbar{
-    
-  }
-  
+
   .attack{
     width:1200px;
     height:250px;
