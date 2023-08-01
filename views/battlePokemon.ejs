@@ -14,15 +14,15 @@
 <body>
 
     <div id="fullframe">
-        
-        <div class="user-poke">
+
+        <div class="user-poke" v-if="pokemonSelecionado">
             <!-- Exibe a imagem do pokémon do usuário, com animações baseadas nas classes CSS 'playerShake' e 'playerAttack' -->
             <img class="centerPokemonPlayer" v-bind:src="userPokemon" v-bind:class="{'playerShake': playerShake, 'playerAttack': playerAttack}" />
         </div>
         
-        <div class="user-hp">
-          <!-- Exibe a barra de vida (HP) do pokémon do usuário -->
-          <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="userHpObj"></span></p>
+        <div class="user-hp" v-if="pokemonSelecionado">
+            <!-- Exibe a barra de vida (HP) do pokémon do usuário -->
+            <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="userHpObj"></span></p>
         </div>
         
         <div class="opponent-poke">
@@ -42,11 +42,11 @@
                 <ul v-show="mostrarPokemons" class="centerOption">
                     <% user.team.forEach((pokemon, id) => { %>
                         <li><a v-on:click.prevent="trocarPokemon(<%= id%>)"><%= pokemon.name %></a></li>
-    
                     <%})%>
                 </ul>
-
-
+                <div v-if="!pokemonSelecionado" class="warning">
+                    <p>Please choose a Pokémon before starting the battle.</p>
+                </div>
 
             </div>
         </div>
@@ -89,10 +89,10 @@
           mostrarPokemons: false,
           userHP: 300,
           oppoHP: 250,
-          userPokemon: "https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur.gif",
+          userPokemon: teamPokemons[0].images.imageAnimatedBack,
           oppoPokemon: "https://www.pkparaiso.com/imagenes/xy/sprites/animados/absol-mega.gif",
-          bottomPoke: "Venasaur",
-          bottomText: "What will do you?",
+          bottomPoke: teamPokemons[0].name,
+          bottomText: "",
           option1: "Fight",
           topPoke: "Absol",
           option2: "Item",
@@ -132,6 +132,12 @@
         this.userHpObj.width = '160px'; // Reinicie a largura da barra de HP
         this.currentTurn = 'player'; // Reinicie o turno atual para o turno do jogador
 
+        // Atualize as habilidades do usuário de acordo com o Pokémon selecionado
+        this.option1 = pokemonSelecionado.abilities[0];
+        this.option2 = pokemonSelecionado.abilities[1];
+        this.option3 = pokemonSelecionado.abilities[2];
+        this.option4 = pokemonSelecionado.abilities[3];
+        
         // Oculte as opções do canto inferior direito e redefina-as para os valores padrão
         this.showbottomright = true;
         this.reinitialize();
@@ -150,13 +156,14 @@
     },
           // Função que muda as opções para ataques
           fightOption: function (){
-              this.option1="Take Down";
-              this.option2="Vine Whip";
-              this.option3="Solar Beam";
-              this.option4="Razor Leaf";
-              this.backStatus=true;
-              this.tooltipStatus=true;
-              this.fightOptionStatus=false;
+            this.option1 = this.pokemonSelecionado.abilities[0];
+          this.option2 = this.pokemonSelecionado.abilities[1];
+          this.option3 = this.pokemonSelecionado.abilities[2];
+          this.option4 = this.pokemonSelecionado.abilities[3];
+
+          this.backStatus = true;
+          this.tooltipStatus = true;
+          this.fightOptionStatus = false;
           },
           // Função para mostrar que não há itens restantes
           itemOption: function (){
@@ -355,13 +362,27 @@
                   this.showbottomright=true;
                   this.bottomText="What will Venasaur do?";
               },2000);   
-          }
+          },
+          startBattle: function () {
+                    // Verifique se o usuário selecionou um Pokémon
+                    if (!this.pokemonSelecionado) {
+                        // Exiba o aviso
+                        var warningDiv = document.querySelector(".warning");
+                        if (warningDiv) {
+                            warningDiv.style.display = "block";
+                        }
+                    } else {
+                        // Caso o Pokémon tenha sido selecionado, inicie a batalha normalmente
+                        this.showbottomright = true;
+                        this.bottomText = "What will Venasaur do?";
+                    }
+                }
       }
   })
+  console.log(typeof <%- JSON.stringify(user.team[0].abilities[0]) %>)
+
   </script>
-  <script>
-    console.log(<%- JSON.stringify(user.team[0]) %>)
-  </script>
+
 
 </body>
 
