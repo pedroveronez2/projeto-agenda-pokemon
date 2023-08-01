@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authController = require('./controllers/authController');
 const pokemonController = require('./controllers/pokemonController');
+const battlePokemonController = require('./controllers/battlePokemonController');
+
 const dashboardController = require('./controllers/dashboardController');
 
 // Rota raiz
@@ -58,9 +60,10 @@ router.get('/logout', (req, res) => {
   });
 });
 
-
 // pokedex
 router.get('/pokedex', dashboardController.pokedex)
+
 // jogo
-  
+router.get('/battlePokemon', battlePokemonController.index)
+
 module.exports = router;
