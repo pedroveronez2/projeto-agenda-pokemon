@@ -150,10 +150,11 @@
 }
 
 .user-hp {
+    text-transform: capitalize;
     background-color: transparent;
     position: absolute;
     width: 200px;
-    height: 50px;
+    height: 60px;
     left: calc(600px - 250px);
     top: 380px;
     z-index: 1;
@@ -166,7 +167,7 @@
     background-color: transparent;
     position: absolute;
     width: 200px;
-    height: 50px;
+    height: 70px;
     left: calc(550px - 75px);
     top: 80px;
     z-index: 1;
@@ -337,4 +338,8 @@ a:hover {
 
 .d-block {
     display: block;
+}
+
+.pokemonTeam-li {
+    margin: 10px;
 }

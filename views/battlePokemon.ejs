@@ -13,85 +13,113 @@
 
 <body>
 
-    <div id="fullframe">
+<div  id="fullframe">
+    <h1>Derrote Todos os 151 pokemons</h1>
+    <div>
+        <div v-if="!victory">
 
-        <div class="user-poke" v-if="pokemonSelecionado">
-            <!-- Exibe a imagem do pokémon do usuário, com animações baseadas nas classes CSS 'playerShake' e 'playerAttack' -->
-            <img class="centerPokemonPlayer" v-bind:src="userPokemon" v-bind:class="{'playerShake': playerShake, 'playerAttack': playerAttack}" />
-        </div>
-        
-        <div class="user-hp" v-if="pokemonSelecionado">
-            <!-- Exibe a barra de vida (HP) do pokémon do usuário -->
-            <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="userHpObj"></span></p>
-        </div>
-        
-        <div class="opponent-poke">
-            <!-- Exibe a imagem do pokémon oponente, com animações baseadas nas classes CSS 'opponentShake' e 'oppoAttack' -->
-            <img class="centerPokemon" v-bind:src="oppoPokemon" v-bind:class="{'opponentShake': opponentShake, 'oppoAttack': oppoAttack}" />
-        </div>
-        
-        <div class="opponent-hp">
-            <!-- Exibe a barra de vida (HP) do pokémon oponente -->
-            <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="oppoHpObj"></span></p>
-        </div> 
-        
-        <div class="bottom-left">
-            <!-- Exibe o texto no canto inferior esquerdo da tela -->
-            <div class="bottom-left-text">
-                <p v-html="bottomText" class="centerOption tooltip">{{ bottomText }}</p>
-                <ul v-show="mostrarPokemons" class="centerOption">
-                    <% user.team.forEach((pokemon, id) => { %>
-                        <li><a v-on:click.prevent="trocarPokemon(<%= id%>)"><%= pokemon.name %></a></li>
-                    <%})%>
-                </ul>
-                <div v-if="!pokemonSelecionado" class="warning">
-                    <p>Please choose a Pokémon before starting the battle.</p>
-                </div>
-
+            <div class="user-poke" v-if="pokemonSelecionado">
+                <!-- Exibe a imagem do pokémon do usuário, com animações baseadas nas classes CSS 'playerShake' e 'playerAttack' -->
+                <img class="centerPokemonPlayer" v-bind:src="userPokemon" v-bind:class="{'playerShake': playerShake, 'playerAttack': playerAttack}" />
             </div>
-        </div>
+            
+            <div class="user-hp" v-if="pokemonSelecionado">
+                <!-- Exibe a barra de vida (HP) do pokémon do usuário -->
+                <span>{{ bottomPoke }}</span>
+                <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="userHpObj"></span></p>
+            </div>
+            
+            <div class="opponent-poke">
+                <!-- Exibe a imagem do pokémon oponente, com animações baseadas nas classes CSS 'opponentShake' e 'oppoAttack' -->
+                <img class="centerPokemon" v-bind:src="oppoPokemon" v-bind:class="{'opponentShake': opponentShake, 'oppoAttack': oppoAttack}" />
+            </div>
+            
+            <div class="opponent-hp">
+                <!-- Exibe a barra de vida (HP) do pokémon oponente -->
+                <span>{{ bottomPokeEnemy }}</span>
+
+                <p>&nbsp;HP:&nbsp;<span class="hp-bar-fill" v-bind:style="oppoHpObj"></span></p>
+            </div> 
+            
+            <div class="bottom-left">
+                <!-- Exibe o texto no canto inferior esquerdo da tela -->
+                <div class="bottom-left-text">
+                    <p v-html="bottomText" class="centerOption tooltip">{{ bottomText }}</p>
+                    <div v-if="!pokemonSelecionado" class="warning">
+                        <p>Please choose a Pokémon before starting the battle.</p>
+                    </div>
+                    <ul v-show="mostrarPokemons" style="display: flex; list-style: none;" v-show="mostrarPokemons && showPokemonList">
+                        <% user.team.forEach((pokemon, id) => { %>
+                            
+                            <li class="pokemonTeam-li "><a v-on:click.prevent="trocarPokemon(<%= id%>)"><%= pokemon.name %></a></li>
+                        <%})%>
+                    </ul>
+
         
-        <div class="bottom-right">
-            <div v-show="showbottomright">
-                <!-- Exibe as opções disponíveis na batalha -->
-                <a v-if="backStatus" v-on:click.prevent="backOption" href="" class="centerbackOption">BACK</a>
-                <div class="bottom-right-1">
-                    <!-- Opção de ataque 1 - mostra um tooltip se tooltipStatus for verdadeiro -->
-                    <a v-on:click.prevent="fightOptionStatus ? fightOption() : userAttackingOption(1)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">A reckless charge attack that also hurts the user.</span>{{ option1 }}</a>
                 </div>
+            </div>
+            
+            <div class="bottom-right">
+                <div v-show="showbottomright">
+                    <!-- Exibe as opções disponíveis na batalha -->
+                    <a v-if="backStatus" v-on:click.prevent="backOption" href="" class="centerbackOption">BACK</a>
+                    <div class="bottom-right-1">
+                        <!-- Opção de ataque 1 - mostra um tooltip se tooltipStatus for verdadeiro -->
+                        <a v-on:click.prevent="fightOptionStatus ? fightOption() : userAttackingOption(1)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">A reckless charge attack that also hurts the user.</span>{{ option1 }}</a>
+                    </div>
+        
+                    <!-- Restantes opções de ataque -->
+                    <div class="bottom-right-2">
+                        <a v-on:click.prevent="fightOptionStatus ? itemOption() : userAttackingOption(2)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Strikes the foe with slender, whiplike vines.</span>{{ option2 }}</a>
+                    </div>
+        
+                    <div class="bottom-right-3">
+                        <a v-on:click.prevent="fightOptionStatus ? pokemonOption() : userAttackingOption(3)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Solar Beam will absorb light on the first turn. On the second turn, Solar Beam deals damage.</span>{{ option3 }}</a>
+                    </div>
+        
+                    <div class="bottom-right-4">
+                        <a v-on:click.prevent="fightOptionStatus ? runOption() : userAttackingOption(4)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Cuts the enemy with leaves. High critical-hit ratio.</span>{{ option4 }}</a>
+                    </div>
+                </div>    
+            </div>
 
-                <!-- Restantes opções de ataque -->
-                <div class="bottom-right-2">
-                    <a v-on:click.prevent="fightOptionStatus ? itemOption() : userAttackingOption(2)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Strikes the foe with slender, whiplike vines.</span>{{ option2 }}</a>
-                </div>
+        </div>
+        <div v-if="victory">
+            <h1>You win!</h1>
+            <button v-on:click.prevent="restart()">Restart</button>
 
-                <div class="bottom-right-3">
-                    <a v-on:click.prevent="fightOptionStatus ? pokemonOption() : userAttackingOption(3)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Solar Beam will absorb light on the first turn. On the second turn, Solar Beam deals damage.</span>{{ option3 }}</a>
-                </div>
-
-                <div class="bottom-right-4">
-                    <a v-on:click.prevent="fightOptionStatus ? runOption() : userAttackingOption(4)" href="" class="centerOption tooltip"><span v-if="tooltipStatus" class="tooltiptext">Cuts the enemy with leaves. High critical-hit ratio.</span>{{ option4 }}</a>
-                </div>
-            </div>    
         </div>
     </div>
     <a href="/dashboard">Voltar</a>
 
+</div>
+
+
+ 
+
   <script>
+    function selectRandomEnemyPokemon() {
+    const randomIndex = Math.floor(Math.random() * teamEnemy.length);
+    return teamEnemy.splice(randomIndex, 1)[0];
+}
     // Inicializa a variável teamPokemons com o time de pokémons do usuário, convertido para JSON
     const teamPokemons = <%- JSON.stringify(user.team) %>;
+    const teamEnemy = <%- JSON.stringify(enemyTeam) %>;
+    var numberPokemonEnemy = 0
     // Cria uma nova instância do Vue
     var pokemonApp = new Vue({
       el: '#fullframe', // Monta a instância na div com id "fullframe"
       data: {
           // Dados do jogo
+          victory: false,
           pokemonSelecionado: null,
           mostrarPokemons: false,
           userHP: 300,
           oppoHP: 250,
           userPokemon: teamPokemons[0].images.imageAnimatedBack,
-          oppoPokemon: "https://www.pkparaiso.com/imagenes/xy/sprites/animados/absol-mega.gif",
+          oppoPokemon: teamEnemy[0].gifImage,
           bottomPoke: teamPokemons[0].name,
+          bottomPokeEnemy: `${teamEnemy[0].id}. ${teamEnemy[0].name}` ,
           bottomText: "",
           option1: "Fight",
           topPoke: "Absol",
@@ -104,7 +132,7 @@
           fightOptionStatus: true,
           option1DMG: 70,
           option2DMG: 30,
-          option3DMG: 120,
+          option3DMG: 200,
           option4DMG: 100,
           userHpObj: { width: '100%' },
           oppoHpObj: { width: '100%' },
@@ -114,7 +142,8 @@
           oppoAttack: false,
           currentTurn: "player",
           showbottomright: true,
-          pokemons: teamPokemons
+          pokemons: teamPokemons,
+          showPokemonList:true,
       },
       methods: {
       // Função para trocar o Pokémon atual pelo selecionado
@@ -142,15 +171,17 @@
         this.showbottomright = true;
         this.reinitialize();
         this.bottomText = ''
+
     },
 
     // Função para exibir a lista de Pokémon disponíveis para troca
     exibirListaDePokemon: function () {
-         let lista = '<ul>';
-         for (let i = 0; i < this.pokemons.length; i++) {
-             lista += `<li><a v-on:click.prevent="trocarPokemon(${i})">${this.pokemons[i].name}</a></li>`;
-         }
-         lista += '</ul>';
+
+        let lista = '<ul>';
+        for (let i = 0; i < this.pokemons.length; i++) {
+            lista += `<li><a v-on:click.prevent="trocarPokemon(${i})">${this.pokemons[i].name}</a></li>`;
+        }
+        lista += '</ul>';
         this.mostrarPokemons = true;
         this.bottomText = '';
     },
@@ -171,13 +202,10 @@
               var vm = this;
               clearTimeout(this.timers);
               this.timers = setTimeout(function(){
-                  vm.bottomText="What will Venasaur do?";
+                  vm.bottomText="";
               },1500);
           },
-          // Função para mostrar o nome do primeiro pokémon no time do usuário
-          changePokemon: function () {
 
-          },
           pokemonOption: function () {
             this.exibirListaDePokemon();
 
@@ -188,7 +216,7 @@
               var vm = this;
               clearTimeout(this.timers);
               this.timers = setTimeout(function(){
-                  vm.bottomText="What will Venasaur do?";
+                  vm.bottomText="";
               },1500);
           },
           // Função para voltar às opções iniciais de luta
@@ -203,11 +231,14 @@
           },
           // Função para executar o ataque do usuário
           userAttackingOption: function (moveId){
+            this.mostrarPokemons = false;
+
               // Mapeia a lógica para cada opção de ataque (1 a 4)
               if (moveId == 1){
                   // Ataque 1: Take Down
+                  
                   this.showbottomright=false;
-                  this.bottomText="Venasaur attacked Absol with Take Down! deals 70 damage";
+                  this.bottomText=`${this.bottomPoke} used ${this.pokemonSelecionado.abilities[0]}`;
                   this.oppoHP-=this.option1DMG;
                   // 160px health é considerado 100%
                   var newWidth = (this.oppoHP/250)*160;
@@ -220,20 +251,21 @@
                   this.oppoHpObj.width= newWidth + "px";
                   // Verifica se o oponente desmaiou
                   if (this.oppoHP < 0){
-                      this.restart();
+                    
+                      this.nextEnemy();
+
                   } else {
                     setTimeout(()=> {
                           this.showbottomright=true;
-                          this.bottomText="What will Venasaur do?";
+                          this.bottomText="";
                           this.currentTurn="opponent";
                           this.absolAttack();
                       },1000);                           
                   }
-                  
               }else if(moveId == 2){
                   // Ataque 2: Vine Whip
                   this.showbottomright=false;
-                  this.bottomText="Venasaur attacked Absol with Vine Whip! deals 30 damage"
+                  this.bottomText=`${this.bottomPoke} used ${this.pokemonSelecionado.abilities[1]}`;
                   this.oppoHP-=this.option2DMG;
                   // 160px health é considerado 100%
                   var newWidth = (this.oppoHP/250)*160;
@@ -246,11 +278,11 @@
                   this.oppoHpObj.width= newWidth + "px";
                   // Verifica se o oponente desmaiou
                   if (this.oppoHP < 0){
-                      this.restart();
+                      this.nextEnemy();
                   } else {
                         setTimeout(()=> {
                           this.showbottomright=true;
-                          this.bottomText="What will Venasaur do?";
+                          this.bottomText="";
                           this.currentTurn="opponent";
                           this.absolAttack();
                       },1000);                            
@@ -258,7 +290,7 @@
               }else if(moveId == 3){
                   // Ataque 3: Solar Beam
                   this.showbottomright=false;
-                  this.bottomText="Venasaur attacked Absol with Solar Beam! deals 120 damage"
+                  this.bottomText=`${this.bottomPoke} used ${this.pokemonSelecionado.abilities[2]}`;
                   this.oppoHP-=this.option3DMG;
                   // 160px health é considerado 100%
                   var newWidth = (this.oppoHP/250)*160;
@@ -271,11 +303,11 @@
                   this.oppoHpObj.width= newWidth + "px";
                   // Verifica se o oponente desmaiou
                   if (this.oppoHP < 0){
-                      this.restart();
+                      this.nextEnemy();
                   } else {
                       setTimeout(()=> {
                           this.showbottomright=true;
-                          this.bottomText="What will Venasaur do?";
+                          this.bottomText="";
                           this.currentTurn="opponent";
                           this.absolAttack();
                       },1000);
@@ -283,7 +315,7 @@
               }else if(moveId == 4){
                   // Ataque 4: Razor Leaf
                   this.showbottomright=false;
-                  this.bottomText="Venasaur attacked Absol with Razor Leaf! deals 100 damage"
+                  this.bottomText=`${this.bottomPoke} used ${this.pokemonSelecionado.abilities[3]}`;
                   this.oppoHP-=this.option4DMG;
                   // 160px health é considerado 100%
                   var newWidth = (this.oppoHP/250)*160;
@@ -296,16 +328,17 @@
                   this.oppoHpObj.width= newWidth + "px";
                   // Verifica se o oponente desmaiou
                   if (this.oppoHP < 0){
-                      this.restart();
+                    this.nextEnemy();
                   } else {
                       setTimeout(()=> {
                       this.showbottomright=true;
-                          this.bottomText="What will Venasaur do?";
+                          this.bottomText="";
                           this.currentTurn="opponent";
                           this.absolAttack();
                       },1000);                           
                   }
               }
+
           },
           
           // Função para executar o ataque do oponente (Absol)
@@ -325,9 +358,10 @@
 
                   setTimeout(()=> {
                       this.showbottomright=true;
-                      this.bottomText="What will Venasaur do?";
+                      this.bottomText="what are you going to do now?";
                   },1000);
                   this.currentTurn="player";
+
           },
           
           // Função para reiniciar as opções de batalha
@@ -339,13 +373,38 @@
               this.backStatus=false;
               this.tooltipStatus=false;
               this.fightOptionStatus=true;
-              this.bottomText="What will Venasaur do?";
+              this.bottomText="what are you going to do now?";
               this.playerShake=false;
               this.opponentShake=false;
           },
-          
+        //  next enemy
+          nextEnemy: function(){
+            if (teamEnemy.length > 0) {
+                const nextEnemy = selectRandomEnemyPokemon();
+                this.oppoPokemon = nextEnemy.gifImage;
+                this.oppoHP = 250;
+                this.oppoHpObj.width = "160px";
+                this.bottomText = `The opponent sent out ${nextEnemy.name}!`;
+                this.option1="Fight";
+              this.option2="Item";
+              this.option3="Pokemon";
+              this.option4="Run";
+              this.backStatus=false;
+              this.tooltipStatus=false;
+              this.fightOptionStatus=true;
+              this.showbottomright=true;
+              this.bottomPokeEnemy = nextEnemy.id +'. ' + nextEnemy.name
+
+            } else {
+                // Caso contrário, reinicie o jogo completamente
+                setTimeout(()=> {
+                    this.youWin()
+                }, 2000);
+            }
+          },
           // Função para reiniciar o jogo
           restart: function(){
+            this.victory = false
               this.userHP=300;
               this.userHpObj.width="160px";
               this.oppoHP=250;
@@ -360,7 +419,8 @@
               this.bottomText="Absol fainted! match restarting";
                 setTimeout(()=> {
                   this.showbottomright=true;
-                  this.bottomText="What will Venasaur do?";
+                  this.bottomText="";
+                  this.pokemonSelecionado = null
               },2000);   
           },
           startBattle: function () {
@@ -374,9 +434,12 @@
                     } else {
                         // Caso o Pokémon tenha sido selecionado, inicie a batalha normalmente
                         this.showbottomright = true;
-                        this.bottomText = "What will Venasaur do?";
+                        this.bottomText = "";
                     }
-                }
+                },
+            youWin: function() {
+                this.victory = true
+            } 
       }
   })
   console.log(typeof <%- JSON.stringify(user.team[0].abilities[0]) %>)
